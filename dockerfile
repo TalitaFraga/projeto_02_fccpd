@@ -5,7 +5,7 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copie os arquivos menu.py e client.py para o contêiner
-COPY menu.py client.py /app/
+COPY menu.py client.py livro.py /app/
 
 # Instale a biblioteca mysql-connector-python para conexão com o MySQL
 RUN pip install mysql-connector-python

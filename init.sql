@@ -95,7 +95,7 @@ create table ItemPedido(
 
 INSERT INTO Cliente (usuario, senha, cpf, nome, rua, cidade, estado, numero, cep, bairro, complemento, email, telefone) VALUES
 ('user1', 'senha123', '12345678901', 'Alice Silva', 'Rua das Flores', 'São Paulo', 'SP', 101, '01001001', 'Centro', 'Apt 12', 'AliceSilva@hotmail.com', '81994323291'),
-('user2', 'senha456', '23456789012', 'Bruno Lima', 'Av. Paulista', 'São Paulo', 'SP', 102, '01002002', 'Paulista', 'Sala 45', 'BrunoLima@hotmail.com', '11984313274'),
+('user2', 'senha456', '23456789012', 'Bruno Lima', 'Av. Paulista', 'Sao Paulo', 'SP', 102, '01002002', 'Paulista', 'Sala 45', 'BrunoLima@hotmail.com', '11984313274'),
 ('user3', 'senha789', '34567890123', 'Carlos Souza', 'Rua Verde', 'Rio de Janeiro', 'RJ', 103, '21010301', 'Laranjeiras', 'Casa', 'CarlosSouza@hotmail.com', '21987823291'),
 ('user4', 'senha321', '45678901234', 'Daniela Ramos', 'Rua das Palmeiras', 'Curitiba', 'PR', 104, '80030404', 'Centro Cívico', '', 'DanielaRamos@hotmail.com', '85932323291'),
 ('user5', 'senha654', '56789012345', 'Eduardo Torres', 'Rua Azul', 'Belo Horizonte', 'MG', 105, '30150505', 'Savassi', 'Apt 1001', 'EduardoTorres@hotmail.com', '81994325432'),
@@ -104,18 +104,18 @@ INSERT INTO Cliente (usuario, senha, cpf, nome, rua, cidade, estado, numero, cep
 
 
 INSERT INTO Funcionario (cpf, salario, celular, nome, senha, email_principal, rua, numero, cep, bairro) VALUES
-('12345678900', 3500.50, '(11) 91234-5678', 'João Martins', 'senhaadmin', 'joao.martins@livraria.com', 'Rua Principal', 1, '12345678', 'Centro');
+('12345678900', 3500.50, '(11) 91234-5678', 'Joao Martins', 'senhaadmin', 'joao.martins@livraria.com', 'Rua Principal', 1, '12345678', 'Centro');
 
 
 INSERT INTO Categoria (nome) VALUES
-('Romance'), ('Ficção Científica'), ('Fantasia'), ('Biografia'), ('História'), ('Filosofia'),
-('Autoajuda'), ('Tecnologia'), ('Negócios'), ('Literatura Brasileira'), ('Literatura Estrangeira'), ('Infantil');
+('Romance'), ('Ficcao Cientifica'), ('Fantasia'), ('Biografia'), ('Historia'), ('Filosofia'),
+('Autoajuda'), ('Tecnologia'), ('Negocios'), ('Literatura Brasileira'), ('Literatura Estrangeira'), ('Infantil');
 
 
 INSERT INTO Autor (nome, nacionalidade, data_nascimento) VALUES
 ('Machado de Assis', 'Brasileiro', '1839-06-21'),
-('George Orwell', 'Britânico', '1903-06-25'),
-('J.K. Rowling', 'Britânica', '1965-07-31'),
+('George Orwell', 'Britanico', '1903-06-25'),
+('J.K. Rowling', 'Britanica', '1965-07-31'),
 ('Isaac Asimov', 'Russo-Americano', '1920-01-02'),
 ('Clarice Lispector', 'Ucraniana-Brasileira', '1920-12-10'),
 ('Yuval Noah Harari', 'Israelense', '1976-02-24');
@@ -126,9 +126,9 @@ INSERT INTO Editora (nome) VALUES
 
 INSERT INTO Livro (titulo, id_autor, genero, preco, data_publicacao, estoque, id_editora, id_categoria) VALUES
 ('Dom Casmurro', 1, 'Romance', 39.90, '1899-01-01', 50, 1, 10),
-('1984', 2, 'Ficção Científica', 29.90, '1949-06-08', 30, 2, 2),
+('1984', 2, 'Ficcao Cientifica', 29.90, '1949-06-08', 30, 2, 2),
 ('Harry Potter e a Pedra Filosofal', 3, 'Fantasia', 49.90, '1997-06-26', 40, 3, 3),
-('Fundação', 4, 'Ficção Científica', 34.90, '1951-01-01', 20, 1, 2),
+('Fundação', 4, 'Ficcao Cientifica', 34.90, '1951-01-01', 20, 1, 2),
 ('A Hora da Estrela', 5, 'Literatura Brasileira', 25.90, '1977-10-01', 45, 2, 10),
-('Sapiens: Uma Breve História da Humanidade', 6, 'História', 59.90, '2011-01-01', 15, 3, 5);
+('Sapiens: Uma Breve História da Humanidade', 6, 'Historia', 59.90, '2011-01-01', 15, 3, 5);
 
