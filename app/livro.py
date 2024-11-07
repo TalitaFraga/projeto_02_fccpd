@@ -13,9 +13,14 @@ class Livro:
     def listar_livros(self):
         connection = get_connection()
         cursor = connection.cursor()
-        cursor.execute("SELECT Livro.id, Livro.titulo, Livro.preco, Livro.estoque, Categoria.nome AS categoria, Autor.nome AS autor FROM Livro JOIN Categoria ON Livro.id_categoria = Categoria.id JOIN Autor ON Livro.id_autor = Autor.id")
+        cursor.execute("""
+            SELECT Livro.id_livro, Livro.titulo, Livro.preco, Livro.estoque, 
+                Categoria.nome AS categoria, Autor.nome AS autor 
+            FROM Livro 
+            JOIN Categoria ON Livro.id_categoria = Categoria.id_categoria 
+            JOIN Autor ON Livro.id_autor = Autor.id_autor
+        """)
         livros = cursor.fetchall()
         cursor.close()
         connection.close()
         return livros
-
