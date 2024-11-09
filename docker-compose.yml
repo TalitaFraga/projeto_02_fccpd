@@ -9,7 +9,7 @@ services:
       MYSQL_USER: app_user
       MYSQL_PASSWORD: app_senha
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Arquivo de inicialização
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
 
@@ -19,7 +19,9 @@ services:
       - db
     environment:
       DB_HOST: db
-      DB_USER: root
-      DB_PASSWORD: root
+      DB_USER: app_user
+      DB_PASSWORD: app_senha
       DB_NAME: livraria
+    volumes:
+      - .:/app
     tty: true

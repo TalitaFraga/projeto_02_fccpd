@@ -78,7 +78,7 @@ create table Pedido(
 	total float not null,
 	status varchar(255) not null,
 	id_cliente int not null,
-	foreign key (id_cliente) references Cliente(id_cliente)
+	foreign key (id_cliente) references Cliente(id_cliente) ON DELETE CASCADE
 );
 
 create table ItemPedido(
@@ -87,8 +87,8 @@ create table ItemPedido(
 	id_livro int not null,
 	quantidade int not null,
 	preco_unitario float not null,
-	FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido),
-    FOREIGN KEY (id_livro) REFERENCES Livro(id_livro)
+	FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido) ON DELETE CASCADE,
+    FOREIGN KEY (id_livro) REFERENCES Livro(id_livro) ON DELETE CASCADE
 
 );
 
@@ -125,7 +125,7 @@ INSERT INTO Editora (nome) VALUES
 
 
 INSERT INTO Livro (titulo, id_autor, genero, preco, data_publicacao, estoque, id_editora, id_categoria) VALUES
-('Dom Casmurro', 1, 'Romance', 39.90, '1899-01-01', 50, 1, 10),
+('Dom Casmurro', 1, 'Romance', 39.90, '1899-01-01', 50, 1, 1),
 ('1984', 2, 'Ficcao Cientifica', 29.90, '1949-06-08', 30, 2, 2),
 ('Harry Potter e a Pedra Filosofal', 3, 'Fantasia', 49.90, '1997-06-26', 40, 3, 3),
 ('Fundação', 4, 'Ficcao Cientifica', 34.90, '1951-01-01', 20, 1, 2),

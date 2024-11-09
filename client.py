@@ -26,7 +26,6 @@ def inserir_cliente():
     complemento = input("Digite seu complemento: ") or ""
     
 
-    # Adicione os outros campos conforme necessário
     conn = conectar()
     cursor = conn.cursor()
     cursor.execute("INSERT INTO Cliente (usuario, senha, cpf, nome, email, telefone, rua, cidade, estado, numero, cep, bairro, complemento) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (usuario, senha, cpf, nome, email, telefone, rua, cidade, estado, numero, cep, bairro, complemento))
@@ -44,55 +43,74 @@ def listar_clientes():
     cursor.close()
     conn.close()
 
-def remover_cliente():
+def remover_cliente(id_cliente):
+    """Permite que o cliente logado remova sua própria conta após verificar a senha."""
     conn = conectar()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
     
-    # Listar ID, Nome, e CPF dos clientes
-    cursor.execute("SELECT id_cliente, nome, cpf FROM Cliente")
-    clientes = cursor.fetchall()
+    senha = input("Digite sua senha para confirmar a remoção da conta: ")
     
-    print("\nClientes disponíveis para remoção:")
-    for cliente in clientes:
-        print(f"ID: {cliente[0]}, Nome: {cliente[1]}, CPF: {cliente[2]}")
+    cursor.execute("SELECT senha FROM Cliente WHERE id_cliente = %s", (id_cliente,))
+    cliente = cursor.fetchone()
     
-    # Solicitar o ID do cliente a ser removido
-    id_cliente = int(input("\nDigite o ID do cliente a ser removido: "))
-    decisao = input("Você tem certeza que deseja deletar o cliente? 1- Sim, 2- Nao ")
-    if decisao == "1":
-        # Executar remoção
-        cursor.execute("DELETE FROM Cliente WHERE id_cliente = %s", (id_cliente,))
-        conn.commit()
-        
-        if cursor.rowcount > 0:
-            print("Cliente removido com sucesso!")
+    if cliente and cliente['senha'] == senha:
+        decisao = input("Você tem certeza que deseja deletar sua conta? (1- Sim, 2- Não): ")
+        if decisao == "1":
+            cursor.execute("DELETE FROM Cliente WHERE id_cliente = %s", (id_cliente,))
+            conn.commit()
+            
+            if cursor.rowcount > 0:
+                print("Conta removida com sucesso!")
+            else:
+                print("Erro ao remover a conta.")
         else:
-            print("Cliente não encontrado.")
+            print("Remoção cancelada.")
     else:
-        print("Remoção cancelada.")
-        
+        print("Senha incorreta. Remoção não autorizada.")
+    
     cursor.close()
     conn.close()
 
-def atualizar_cliente():
+
+def atualizar_cliente(id_cliente):
     conn = conectar()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
+
+            
+    cursor.execute("SELECT * FROM Cliente WHERE id_cliente = %s", (id_cliente,))
+    cliente = cursor.fetchone()
     
+    print("\nInformações atuais do cliente:")
+    print(f"Id Cliente: {cliente['id_cliente']}")
+    print(f"Usuário: {cliente['usuario']}")
+    print(f"Senha: {cliente['senha']}")
+    print(f"Nome: {cliente['nome']}")
+    print(f"email: {cliente['email']}")
+    print(f"Telefone: {cliente['telefone']}")
+    print(f"cpf: {cliente['cpf']}")
+    print(f"Rua: {cliente['rua']}")
+    print(f"Cidade: {cliente['cidade']}")
+    print(f"Estado: {cliente['estado']}")
+    print(f"Numero: {cliente['numero']}")
+    print(f"cep: {cliente['cep']}")
+    print(f"Bairro: {cliente['bairro']}")
+    print(f"Complemento: {cliente['complemento']}")
+
+
     # Listar ID, Nome, e CPF dos clientes
-    cursor.execute("SELECT id_cliente, nome, cpf FROM Cliente")
-    id_cliente = int(input("Digite o ID do cliente a ser atualizado: "))
-    usuario = input("Digite o novo usuario: ")
-    senha = input("Digite a nova senha: ")
-    nome = input("Digite o novo nome: ")
-    email = input("Digite o novo email: ")
-    telefone = input("Digite o novo telefone: ")
-    cpf = input("Digite o novo CPF: ")
-    rua = input("Digite a nova rua: ")
-    cidade = input("Digite a nova cidade: ")
-    estado = input("Digite o novo estado: ")
-    numero = int(input("Digite o novo número da residência: "))
-    cep = input("Digite o novo CEP: (somente numeros) ")
-    bairro = input("Digite o novo Bairro: ")
+    usuario = input("Digite o novo usuario: ") or cliente['usuario']
+    senha = input("Digite a nova senha: ") or cliente['senha']
+    nome = input("Digite o novo nome: ") or cliente['nome']
+    email = input("Digite o novo email: ") or cliente['email']
+    telefone = input("Digite o novo telefone: ") or cliente['telefone']
+    cpf = input("Digite o novo CPF: ") or cliente['cpf']
+    rua = input("Digite a nova rua: ") or cliente['rua']
+    cidade = input("Digite a nova cidade: ") or cliente['cidade']
+    estado = input("Digite o novo estado: ") or cliente['estado']
+    numero_input = (input("Digite o novo número da residência: ")) 
+    numero = int(numero_input) if numero_input else cliente['numero']
+    cep = input("Digite o novo CEP: (somente numeros) ")or cliente['cep']
+    bairro = input("Digite o novo Bairro: ") or cliente['bairro']
     complemento = input("Digite o novo complemento: ") or ""
     
     conn = conectar()
