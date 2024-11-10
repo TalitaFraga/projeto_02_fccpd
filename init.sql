@@ -2,22 +2,6 @@ DROP DATABASE IF EXISTS livraria;
 create database livraria;
 use livraria;
 
-create table Funcionario (
-	id_funcionario INT primary key auto_increment,
-	cpf VARCHAR(11) NOT null UNIQUE,
-	salario FLOAT NOT NULL,
-	celular VARCHAR(15) NOT NULL,
-	nome VARCHAR(200) NOT NULL,
-	senha VARCHAR(255) NOT NULL,
-	email_principal VARCHAR(200) NOT NULL,
-	rua VARCHAR(200) NOT NULL,
-	numero INT NOT NULL,
-	cep varchar(8) NOT NULL,
-	bairro VARCHAR(200)
-	
-
-);
-
 create table Cliente(
 	id_cliente int primary key auto_increment,
 	usuario varchar(50) not null,
@@ -100,11 +84,6 @@ INSERT INTO Cliente (usuario, senha, cpf, nome, rua, cidade, estado, numero, cep
 ('user4', 'senha321', '45678901234', 'Daniela Ramos', 'Rua das Palmeiras', 'Curitiba', 'PR', 104, '80030404', 'Centro Cívico', '', 'DanielaRamos@hotmail.com', '85932323291'),
 ('user5', 'senha654', '56789012345', 'Eduardo Torres', 'Rua Azul', 'Belo Horizonte', 'MG', 105, '30150505', 'Savassi', 'Apt 1001', 'EduardoTorres@hotmail.com', '81994325432'),
 ('user6', 'senha987', '67890123456', 'Fernanda Oliveira', 'Av. Brasil', 'Fortaleza', 'CE', 106, '60060606', 'Aldeota', 'Apt 202', 'FernandaOliveira@hotmail.com', '41934975291');
-
-
-
-INSERT INTO Funcionario (cpf, salario, celular, nome, senha, email_principal, rua, numero, cep, bairro) VALUES
-('12345678900', 3500.50, '(11) 91234-5678', 'Joao Martins', 'senhaadmin', 'joao.martins@livraria.com', 'Rua Principal', 1, '12345678', 'Centro');
 
 
 INSERT INTO Categoria (nome) VALUES

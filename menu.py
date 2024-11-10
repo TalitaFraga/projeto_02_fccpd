@@ -32,7 +32,6 @@ def menu_principal():
         elif opcao == '3':
             usuario_logado = inserir_cliente()
             print("Cadastro realizado com sucesso!")
-            # menu_cliente()
         elif opcao == '4':
             listar_livros()
         elif opcao == '5':
@@ -125,7 +124,6 @@ def menu_administrador():
             print("Opção inválida. Tente novamente.")
 
 def login_usuario():
-    """Função para autenticação do usuário"""
     cpf = input("Digite seu CPF: ")
     senha = input("Digite sua senha: ")
     
