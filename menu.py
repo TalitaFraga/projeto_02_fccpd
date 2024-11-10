@@ -23,12 +23,7 @@ def menu_principal():
                 print(f"Bem-vindo(a), {usuario_logado['nome']}!")
                 menu_cliente()
         elif opcao == '2':
-            senha_admin = input("Digite a senha de administrador: ")
-            if senha_admin == "senha_admin":
-                print("Acesso concedido como Administrador.")
-                menu_administrador()
-            else:
-                print("Senha incorreta.")
+            autenticar_admin()
         elif opcao == '3':
             usuario_logado = inserir_cliente()
             print("Cadastro realizado com sucesso!")
@@ -143,6 +138,26 @@ def login_usuario():
     finally:
         cursor.close()
         conn.close()
+
+
+def autenticar_admin():
+    nome_usuario = input("Digite o nome de usuário do administrador: ")
+    senha = input("Digite a senha do administrador: ")
+
+    conn = conectar()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("SELECT * FROM Admin WHERE nome = %s AND senha = %s AND is_admin = TRUE", (nome_usuario, senha))
+    usuario = cursor.fetchone()
+    
+    if usuario:
+        print("Acesso concedido como Administrador.")
+        menu_administrador()
+    else:
+        print("Nome de usuário ou senha incorretos.")
+    
+    cursor.close()
+    conn.close()
 
 
 if __name__ == "__main__":

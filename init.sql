@@ -76,6 +76,14 @@ create table ItemPedido(
 
 );
 
+CREATE TABLE Admin (
+    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    is_admin BOOLEAN DEFAULT FALSE
+);
+
+
 
 INSERT INTO Cliente (usuario, senha, cpf, nome, rua, cidade, estado, numero, cep, bairro, complemento, email, telefone) VALUES
 ('user1', 'senha123', '12345678901', 'Alice Silva', 'Rua das Flores', 'São Paulo', 'SP', 101, '01001001', 'Centro', 'Apt 12', 'AliceSilva@hotmail.com', '81994323291'),
@@ -111,3 +119,5 @@ INSERT INTO Livro (titulo, id_autor, genero, preco, data_publicacao, estoque, id
 ('A Hora da Estrela', 5, 'Literatura Brasileira', 25.90, '1977-10-01', 45, 2, 10),
 ('Sapiens: Uma Breve História da Humanidade', 6, 'Historia', 59.90, '2011-01-01', 15, 3, 5);
 
+INSERT INTO Admin (nome, senha, is_admin)
+VALUES ('admin', 'senha_admin', TRUE);
