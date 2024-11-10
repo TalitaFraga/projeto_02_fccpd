@@ -1,5 +1,5 @@
 import mysql.connector
-
+import time
 # Configurações da conexão com o banco de dados
 db_config = {
     'host': 'db',  # Ou 'db' se estiver usando Docker Compose
@@ -16,17 +16,19 @@ def listar_livros():
     conn = conectar()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT Livro.titulo, Autor.nome, Livro.genero, Editora.nome, Livro.preco, Livro.data_publicacao
+        SELECT Livro.titulo, Autor.nome, Livro.genero, Editora.nome, Livro.preco, Livro.data_publicacao,Livro.estoque
         FROM Livro
         JOIN Autor ON Livro.id_autor = Autor.id_autor
         JOIN Editora ON Livro.id_editora = Editora.id_editora
     """)
-    
     livros = cursor.fetchall()
     print("\nLista de Livros Disponíveis:")
-    for livro in livros:
-        print(f"Título: {livro[0]}, Autor: {livro[1]}, Gênero: {livro[2]}, Editora: {livro[3]}, Preço: {livro[4]}, Data de Publicação: {livro[5]}")
-    
+    if livros:
+        print("\nLista de Livros Disponíveis:")
+        for livro in livros:
+            print(f"Título: {livro[0]}, Autor: {livro[1]}, Gênero: {livro[2]}, Editora: {livro[3]}, Preço: {livro[4]}, Data de Publicação: {livro[5]}, Estoque: {livro[6]}")
+    else:
+        print("Nenhum livro encontrado.")
     cursor.close()
     conn.close()
 
@@ -45,7 +47,7 @@ def procurar_livros_por_categoria():
     categoria_id = int(input("\nDigite o ID da categoria para ver os livros: "))
 
     cursor.execute("""
-        SELECT Livro.titulo, Autor.nome, Livro.genero, Livro.preco, Livro.data_publicacao
+        SELECT Livro.titulo, Autor.nome, Livro.genero, Livro.preco, Livro.data_publicacao,Livro.estoque
         FROM Livro
         JOIN Autor ON Livro.id_autor = Autor.id_autor
         WHERE Livro.id_categoria = %s
@@ -55,13 +57,42 @@ def procurar_livros_por_categoria():
     if livros:
         print(f"\nLivros na Categoria {categoria_id}:")
         for livro in livros:
-            print(f"Nome: {livro[0]}, Autor: {livro[1]}, Gênero: {livro[2]}, Preço: {livro[3]}, Data de Publicação: {livro[4]}")
+            print(f"Nome: {livro[0]}, Autor: {livro[1]}, Gênero: {livro[2]}, Preço: {livro[3]}, Data de Publicação: {livro[4]},estoque: {livro[5]}")
     else:
         print("Nenhum livro encontrado nessa categoria.")
     
     cursor.close()
     conn.close()
 
+def listar_livros_por_id():
+    """Lista todos os livros disponíveis ordenados pelo ID, incluindo o estoque."""
+    conn = conectar()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""
+            SELECT Livro.id_livro, Livro.titulo, Autor.nome, Livro.genero, Editora.nome, 
+                   Livro.preco, Livro.data_publicacao, Livro.estoque
+            FROM Livro
+            JOIN Autor ON Livro.id_autor = Autor.id_autor
+            JOIN Editora ON Livro.id_editora = Editora.id_editora
+            ORDER BY Livro.id_livro
+        """)
+        
+        livros = cursor.fetchall()
+        
+        if livros:
+            print("\nLista de Livros por ID:")
+            for livro in livros:
+                print(f"ID: {livro[0]}, Título: {livro[1]}, Autor: {livro[2]}, Gênero: {livro[3]}, "
+                      f"Editora: {livro[4]}, Preço: {livro[5]}, Data de Publicação: {livro[6]}, Estoque: {livro[7]}")
+        else:
+            print("Nenhum livro encontrado.")
+    except mysql.connector.Error as err:
+        print(f"Erro ao listar livros: {err}")
+    finally:
+        cursor.close()
+        conn.close()
+    
 
 def pesquisar_livro_por_nome():
     termo = input("Digite o nome ou parte do nome do livro: ")
@@ -69,7 +100,7 @@ def pesquisar_livro_por_nome():
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT Livro.titulo, Autor.nome, Livro.genero, Editora.nome, Livro.preco, Livro.data_publicacao
+        SELECT Livro.titulo, Autor.nome, Livro.genero, Editora.nome, Livro.preco, Livro.data_publicacao,Livro.estoque
         FROM Livro
         JOIN Autor ON Livro.id_autor = Autor.id_autor
         JOIN Editora ON Livro.id_editora = Editora.id_editora
@@ -80,7 +111,7 @@ def pesquisar_livro_por_nome():
     if livros:
         print("\nLivros encontrados:")
         for livro in livros:
-            print(f"Título: {livro[0]}, Autor: {livro[1]}, Gênero: {livro[2]}, Editora: {livro[3]}, Preço: {livro[4]}, Data de Publicação: {livro[5]}")
+            print(f"Título: {livro[0]}, Autor: {livro[1]}, Gênero: {livro[2]}, Editora: {livro[3]}, Preço: {livro[4]}, Data de Publicação: {livro[5]}, Estoque: {livro[6]}")
     else:
         print("Nenhum livro encontrado com esse nome.")
 
@@ -159,7 +190,46 @@ def inserir_livro():
     finally:
         cursor.close()
         conn.close()
-
+def cadastrar_categoria():
+    conn = conectar()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        nome_categoria= input("Digite o nome da nova categoria: ")
+        cursor.execute("""
+            INSERT INTO Categoria (nome)
+            VALUES (%s)
+        """, (nome_categoria,))
+        conn.commit()
+        print("Categoria ", nome_categoria,"inserida com sucesso!")
+    except ValueError:
+        print("Entrada inválida. Certifique-se de inserir valor correto pro nome da categoria.")
+    
+    except mysql.connector.Error as err:
+        print(f"Erro ao cadastrar categoria: {err}")
+    
+    finally:
+        cursor.close()
+        conn.close()
+def cadastrar_editora():
+    conn = conectar()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        nome_editora= input("Digite o nome da nova editora: ")
+        cursor.execute("""
+            INSERT INTO Editora (nome)
+            VALUES (%s)
+        """, (nome_editora,))
+        conn.commit()
+        print("Editora ", nome_editora,"inserida com sucesso!")
+    except ValueError:
+        print("Entrada inválida. Certifique-se de inserir valor correto pro nome da editora.")
+    
+    except mysql.connector.Error as err:
+        print(f"Erro ao cadastrar editora: {err}")
+    
+    finally:
+        cursor.close()
+        conn.close()
 def excluir_livro():
     id_livro = int(input("Digite o ID do livro que deseja excluir: "))
     

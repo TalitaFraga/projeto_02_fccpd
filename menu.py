@@ -1,6 +1,6 @@
 import mysql.connector
 from client import inserir_cliente, listar_clientes, remover_cliente, atualizar_cliente, conectar
-from livro import listar_livros, procurar_livros_por_categoria, pesquisar_livro_por_nome, excluir_livro, inserir_livro, atualizar_livro
+from livro import listar_livros, procurar_livros_por_categoria, pesquisar_livro_por_nome, excluir_livro, inserir_livro, atualizar_livro,cadastrar_categoria,cadastrar_editora,listar_livros_por_id
 from pedidos import finalizar_pedido, adicionar_ao_carrinho, listar_pedidos, listar_todos_pedidos
 
 usuario_logado = None
@@ -12,7 +12,8 @@ def menu_principal():
         print("1. Acessar como Cliente")
         print("2. Acessar como Administrador")
         print("3. Cadastrar-se")
-        print("4. Sair")
+        print("4. Ver Livros Disponíveis")
+        print("5. Sair")
         
         opcao = input("Escolha uma opção: ")
         
@@ -33,6 +34,8 @@ def menu_principal():
             print("Cadastro realizado com sucesso!")
             # menu_cliente()
         elif opcao == '4':
+            listar_livros()
+        elif opcao == '5':
             print("Encerrando...")
             break
         else:
@@ -87,8 +90,10 @@ def menu_administrador():
         print("6. Cadastrar novo livro")
         print("7. Atualizar cadastro de livro")
         print("8. Excluir livro")
-        print("9. Sair para o Menu Principal")
-        
+        print("9. Cadastrar nova categoria")
+        print("10. Cadastrar nova editora")
+        print("11. Sair para o Menu Principal")
+
         opcao = input("Escolha uma opção: ")
         
         if opcao == '1':
@@ -104,10 +109,16 @@ def menu_administrador():
         elif opcao == '6':
             inserir_livro()
         elif opcao == '7':
+            listar_livros_por_id()
             atualizar_livro()
         elif opcao == '8':
+            listar_livros_por_id()
             excluir_livro()
         elif opcao == '9':
+            cadastrar_categoria()
+        elif opcao == '10':
+            cadastrar_editora()
+        elif opcao == '11':
             print("Voltando ao menu principal...")
             break
         else:

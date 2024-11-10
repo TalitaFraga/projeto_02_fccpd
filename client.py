@@ -21,7 +21,7 @@ def inserir_cliente():
     cidade = input("Digite sua cidade: ")
     estado = input("Digite sua estado: ")
     numero = int(input("Digite o numero da sua residencia: "))
-    cep = input("Digite seu CEP: (somente numeros) ")
+    cep = input("Digite seu CEP: (somente numeros, no maximo 8) ")
     bairro = input("Digite seu Bairro: ")
     complemento = input("Digite seu complemento: ") or ""
     
